@@ -5,12 +5,10 @@ import redis
 
 app = Flask(__name__)
 
-# Пробна перевірка з Redis
 redis_host = os.getenv("REDIS_HOST", "redis")
 redis_port = int(os.getenv("REDIS_PORT", 6379))
 r = redis.Redis(host=redis_host, port=redis_port)
 
-# Пробна перевірка з PostgreSQL
 pg_host = os.getenv("POSTGRES_HOST", "postgres")
 pg_port = int(os.getenv("POSTGRES_PORT", 5432))
 pg_user = os.getenv("POSTGRES_USER", "postgres")
@@ -28,11 +26,9 @@ def get_pg_connection():
 
 @app.route("/test")
 def test():
-    # Тест для Redis
     r.set("test_key", "Hello Redis")
     redis_val = r.get("test_key").decode("utf-8")
 
-    # Тест для PostgreSQL
     conn = get_pg_connection()
     cur = conn.cursor()
     cur.execute("SELECT 1;")
